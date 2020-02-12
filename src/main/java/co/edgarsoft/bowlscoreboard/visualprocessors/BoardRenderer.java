@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class BoardRenderer {
 
-    public static BoardRenderer getInstace() {
+    public static BoardRenderer getInstance() {
         return new BoardRenderer();
     }
 

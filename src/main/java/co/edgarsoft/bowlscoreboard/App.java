@@ -14,8 +14,8 @@ public class App {
     public static void main(String[] args) {
         
         try {
-            Board bd = FileToBoardParser.getInstance().parseFile(new File("full.txt"));
-            String result = BoardRenderer.getInstace().getGraphicalBoard(bd);
+            Board bd = FileToBoardParser.getInstance().parseFile(new File(args[0]));
+            String result = BoardRenderer.getInstance().getGraphicalBoard(bd);
             System.out.print(result);
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
