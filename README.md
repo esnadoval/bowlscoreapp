@@ -17,7 +17,7 @@ This software is supplieth with 3 sample cases: score.txt (regular play), full.t
 
 # Compilation and Tecnologies
 
-This uses Maven and JUnit12, with parametrized test cases. To compile this code please use on pom.xm directory: 
+This uses Maven and JUnit12, with parametrized test cases. To compile this code please use on pom.xml directory: 
 
 ```console
 maven clean install
