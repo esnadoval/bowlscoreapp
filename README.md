@@ -15,4 +15,10 @@ On this case, both files are relative to the same directory.
 
 This software is supplieth with 3 sample cases: score.txt (regular play), full.txt (perfect 300 score) and empty.txt (0 score play).
 
+# Compilation and Tecnologies
 
+This uses Maven and JUnit12, with parametrized test cases. To compile this code please use on pom.xm directory: 
+
+```console
+maven clean install
+```
