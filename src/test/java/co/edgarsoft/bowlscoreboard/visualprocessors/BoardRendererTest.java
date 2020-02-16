@@ -24,15 +24,17 @@ public class BoardRendererTest extends AbstractBowlingTest {
     /**
      * Case 1 encoded oracle
      */
-    private String base64Case1OutputOracle = "RnJhbWUgICAgIDEgICAgIDIgICAgIDMgICAgIDQgICAgIDUgICAgIDYgICAgIDcgICAgIDggICAgIDkgICAgIDEwICAgIApKZWZmClBpbmZhbGxzICAgICBYICA3ICAvICA5ICAwICAgICBYICBGICA4ICA4ICAvICBGICA2ICAgICBYICAgICBYICAgICBYIDggIDEgIApTY29yZSAgICAgMjAgICAgMzkgICAgNDggICAgNjYgICAgNzQgICAgODQgICAgOTAgICAgMTIwICAgMTQ5ICAgMTY3ICAgICAgICAKSm9obgpQaW5mYWxscyAgMyAgLyAgNiAgMyAgICAgWCAgOCAgMSAgICAgWCAgICAgWCAgOSAgMCAgNyAgLyAgNCAgNCAgICAgWCA5ICAwICAKU2NvcmUgICAgIDE2ICAgIDI1ICAgIDQ0ICAgIDUzICAgIDgyICAgIDEwMSAgIDExMCAgIDEyNCAgIDEzMiAgIDE1MSAgICAgICAgCg";
+    private String base64Case1OutputOracle = "RnJhbWUJCTEJCTIJCTMJCTQJCTUJCTYJCTcJCTgJCTkJCTEwCkplZmYKUGluZmFsbHMJCVgJNwkvCTkJMAkJWAkwCTgJOAkvCUYJNgkJWAkJWAlYCTgJMQpTY29yZQkJMjAJCTM5CQk0OAkJNjYJCTc0CQk4NAkJOTAJCTEyMAkJMTQ5CQkxNjcKSm9obgpQaW5mYWxscwkzCS8JNgkzCQlYCTgJMQkJWAkJWAk5CTAJNwkvCTQJNAlYCTkJMApTY29yZQkJMTYJCTI1CQk0NAkJNTMJCTgyCQkxMDEJCTExMAkJMTI0CQkxMzIJCTE1MQ==";
     /**
      * Case 2 encoded oracle
      */
-    private String base64Case2OutputOracle = "RnJhbWUgICAgIDEgICAgIDIgICAgIDMgICAgIDQgICAgIDUgICAgIDYgICAgIDcgICAgIDggICAgIDkgICAgIDEwICAgIApDYXJsClBpbmZhbGxzICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICBGICAwICAKU2NvcmUgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIDAgICAgIAo";
+    private String base64Case2OutputOracle = "RnJhbWUJCTEJCTIJCTMJCTQJCTUJCTYJCTcJCTgJCTkJCTEwCkNhcmwKUGluZmFsbHMJCVgJCVgJCVgJCVgJCVgJCVgJCVgJCVgJCVgJWAlYCVgKU2NvcmUJCTMwCQk2MAkJOTAJCTEyMAkJMTUwCQkxODAJCTIxMAkJMjQwCQkyNzAJCTMwMA==";
+    
+    		
     /**
      * Case 3 encoded oracle
      */
-    private String base64Case3OutputOracle = "RnJhbWUgICAgIDEgICAgIDIgICAgIDMgICAgIDQgICAgIDUgICAgIDYgICAgIDcgICAgIDggICAgIDkgICAgIDEwICAgIApDYXJsClBpbmZhbGxzICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgICBYICAgIFggICAgWCAgClNjb3JlICAgICAzMCAgICA2MCAgICA5MCAgICAxMjAgICAxNTAgICAxODAgICAyMTAgICAyNDAgICAyNzAgICAzMDAgICAgICAgICAgICAgCg";
+    private String base64Case3OutputOracle = "RnJhbWUJCTEJCTIJCTMJCTQJCTUJCTYJCTcJCTgJCTkJCTEwCkNhcmwKUGluZmFsbHMJMAkwCTAJMAkwCTAJMAkwCTAJMAkwCTAJMAkwCTAJMAkwCTAJMAkwClNjb3JlCQkwCQkwCQkwCQkwCQkwCQkwCQkwCQkwCQkwCQkw";
 
     public BoardRendererTest() {
     }
@@ -44,12 +46,11 @@ public class BoardRendererTest extends AbstractBowlingTest {
     public void testGetGraphicalBoard() throws Exception {
         super.initialize();
 
-        BoardRenderer br = BoardRenderer.getInstance();
+        BoardRenderer br = new BoardRenderer();
         // Get case oracle
         String decodedOracle = decodeBase64(setupCase == CASE_STD ? base64Case1OutputOracle : (setupCase == CASE_FULL ? base64Case2OutputOracle : base64Case3OutputOracle));
         // calculate board output
-        String calculatedBoard = br.getGraphicalBoard(FileToBoardParser.getInstance().parseFile(scoreFile));
-
+        String calculatedBoard = br.getGraphicalBoard(new FileToBoardParser().parseFile(scoreFile));
         // verify if Oracle is same as calculated Output
         assertTrue(calculatedBoard.equals(decodedOracle));
 

@@ -35,10 +35,7 @@ public class FileToBoardParser {
      */
     private HashMap<String, List<Roll>> playerFrames;
 
-    public static FileToBoardParser getInstance() {
-        return new FileToBoardParser();
-    }
-
+	
     public FileToBoardParser() {
 
         playerFrames = new HashMap<String, List<Roll>>();
@@ -178,10 +175,10 @@ public class FileToBoardParser {
                 pFrames.add(buildFrame(currentFrame, carryFirstRoll, roll, null));
 
             }
-        }
+        }	
 
         // Now calculate this frame's score
-        ScoreCalculator.getInstance().calculatePlayerScores(pFrames);
+        new ScoreCalculator().calculatePlayerScores(pFrames);
 
         return pFrames;
     }
@@ -201,20 +198,13 @@ public class FileToBoardParser {
         Frame fr = null;
 
         if (r3 == null && r2 == null) {
-            fr = new StrikeFrame();
-            ((StrikeFrame) fr).setFirstRoll(r1);
+            fr = new StrikeFrame(frameNumber,r1);
         } else if (r3 == null) {
-            fr = new NormalFrame();
-            ((NormalFrame) fr).setSecondRoll(r2);
-            ((NormalFrame) fr).setFirstRoll(r1);
+            fr = new NormalFrame(frameNumber,r1,r2);
         } else {
-            fr = new FinalBonusSpareFrame();
-            ((FinalBonusSpareFrame) fr).setBonusRoll(r3);
-            ((FinalBonusSpareFrame) fr).setSecondRoll(r2);
-            ((FinalBonusSpareFrame) fr).setFirstRoll(r1);
+            fr = new FinalBonusSpareFrame(frameNumber,r1,r2,r3);
+            
         }
-
-        fr.setFrameNumber(frameNumber);
 
         return fr;
     }
@@ -243,16 +233,19 @@ public class FileToBoardParser {
             throw new BowlingFileInputException(BowlingFileInputException.INVALID_INPUT_EXCEPTION);
         }
 
+        boolean isFoul = false;
         if (currLine[1].equalsIgnoreCase(BowlingConstants.FOUL_ICON)) { // if file has F instead of 0
             currLine[1] = "0";
+            isFoul = true;
+            
         }
 
-        Roll nRoll = new Roll(Integer.parseInt(currLine[1]));
+        Roll nRoll = new Roll(Integer.parseInt(currLine[1]),isFoul);
 
         if (playerFrames.get(currLine[0]) == null) {
             playerFrames.put(currLine[0], new ArrayList<Roll>());
         }
-
+        
         playerFrames.get(currLine[0]).add(nRoll);
     }
 

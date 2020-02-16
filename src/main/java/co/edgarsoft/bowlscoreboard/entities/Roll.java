@@ -16,11 +16,13 @@ public class Roll {
      * pins Taken down form 0 to 10
      */
     private int pinsTakenDown;
+    
+    /**
+     * Frame that indicates if it was a foul ball
+     */
+    protected boolean isFoul;
 
-    public Roll(int pinsTakenDown) {
-        this.pinsTakenDown = pinsTakenDown;
-    }
-
+    
     
     public int getPinsTakenDown() {
         return pinsTakenDown;
@@ -29,6 +31,21 @@ public class Roll {
     public void setPinsTakenDown(int pinsTakenDown) {
         this.pinsTakenDown = pinsTakenDown;
     }
+
+
+	public Roll(int pinsTakenDown, boolean isFoul) {
+		super();
+		this.pinsTakenDown = pinsTakenDown;
+		this.isFoul = isFoul;
+	}
+
+	public boolean isFoul() {
+		return isFoul;
+	}
+
+	public void setFoul(boolean isFoul) {
+		this.isFoul = isFoul;
+	}
 
     
     

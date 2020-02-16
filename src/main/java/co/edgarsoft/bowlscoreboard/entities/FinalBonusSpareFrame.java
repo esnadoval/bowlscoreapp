@@ -5,8 +5,6 @@
  */
 package co.edgarsoft.bowlscoreboard.entities;
 
-import co.edgarsoft.bowlscoreboard.newpackage.utils.PrintUtils;
-
 /**
  * Represents the 10th Frame which have 3 posible Rolls, if the last roll was an Spare.
  *
@@ -28,16 +26,7 @@ public class FinalBonusSpareFrame extends NormalFrame {
         return this.firstRoll.getPinsTakenDown() + this.getSecondRoll().getPinsTakenDown() + bonusRoll.getPinsTakenDown();
     }
 
-    public String toString() {
-        String result = super.toString();
-
-        PrintUtils pu = PrintUtils.getInstance();
-
-        result.concat(" " + (bonusRoll.getPinsTakenDown() == 10 ? "X" : pu.getFormatedLeadingSpace(2, "" + bonusRoll.getPinsTakenDown())));
-
-        return result;
-    }
-
+  
     public Roll getBonusRoll() {
         return bonusRoll;
     }
@@ -45,5 +34,12 @@ public class FinalBonusSpareFrame extends NormalFrame {
     public void setBonusRoll(Roll bonusRoll) {
         this.bonusRoll = bonusRoll;
     }
+
+	public FinalBonusSpareFrame(int frameNumber,Roll firstRoll, Roll secondRoll,Roll bonusRoll) {
+		super(frameNumber,firstRoll, secondRoll);
+		this.bonusRoll = bonusRoll;
+	}
+    
+    
 
 }

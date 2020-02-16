@@ -5,10 +5,8 @@
  */
 package co.edgarsoft.bowlscoreboard.entities;
 
-import co.edgarsoft.bowlscoreboard.newpackage.utils.PrintUtils;
-
 /**
- * Represents a frame wich has only 1 roll (it only happens when player makes a strike)
+ * Represents a frame which has only 1 roll (it only happens when player makes a strike)
  * @author ed.sandoval1644
  */
 public class StrikeFrame extends Frame {
@@ -27,13 +25,6 @@ public class StrikeFrame extends Frame {
         return this.firstRoll.getPinsTakenDown();
     }
 
-    public String toString(){
-
-        PrintUtils pu = PrintUtils.getInstance();
- 
-        
-        return pu.getFormatedLeadingSpace(4,BowlingConstants.STRIKE_ICON);
-    }
 
     public Roll getFirstRoll() {
         return firstRoll;
@@ -45,7 +36,13 @@ public class StrikeFrame extends Frame {
         this.firstRoll = firstRoll;
     }
 
+
+	public StrikeFrame(int frameNumber, Roll firstRoll) {
+		super(frameNumber);
+		this.firstRoll = firstRoll;
+	}
+
     
-    
+    	
 
 }

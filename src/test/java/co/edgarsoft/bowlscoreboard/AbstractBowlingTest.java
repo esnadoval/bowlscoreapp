@@ -5,18 +5,20 @@
  */
 package co.edgarsoft.bowlscoreboard;
 
-import co.edgarsoft.bowlscoreboard.entities.Frame;
-import co.edgarsoft.bowlscoreboard.entities.NormalFrame;
-import co.edgarsoft.bowlscoreboard.entities.Roll;
-import co.edgarsoft.bowlscoreboard.entities.StrikeFrame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import junit.framework.TestCase;
+
 import org.junit.runners.Parameterized;
+
+import co.edgarsoft.bowlscoreboard.entities.Frame;
+import co.edgarsoft.bowlscoreboard.entities.NormalFrame;
+import co.edgarsoft.bowlscoreboard.entities.Roll;
+import co.edgarsoft.bowlscoreboard.entities.StrikeFrame;
+import junit.framework.TestCase;
 
 /**
  * Class for handling the possible cases for a Unit test. Bulds all test cases
@@ -45,6 +47,7 @@ public abstract class AbstractBowlingTest extends TestCase {
         return Arrays.asList(new String[]{
             CASE_STD, CASE_FULL, CASE_EMPTY
         });
+
     }
 
     /**
@@ -53,11 +56,11 @@ public abstract class AbstractBowlingTest extends TestCase {
     protected void initialize() {
 
         switch (setupCase) {
-            case CASE_FULL:
+            case CASE_EMPTY:
                 setupC2();
                 break;
 
-            case CASE_EMPTY:
+            case CASE_FULL:
                 setupC3();
                 break;
 
@@ -90,42 +93,21 @@ public abstract class AbstractBowlingTest extends TestCase {
         playerFramesOracle.put("John", new ArrayList<Frame>());
 
         // Jeff
-        Frame hfrm = new NormalFrame();
-
-        ((NormalFrame) hfrm).setFirstRoll(new Roll(0));
-        ((NormalFrame) hfrm).setSecondRoll(new Roll(8));
-
-        hfrm.setFrameNumber(5);
+        Frame hfrm = new NormalFrame(5,new Roll(0,false),new Roll(8,false));
         hfrm.setCurrentScore(74);
-
         playerFramesOracle.get("Jeff").add(hfrm);
 
-        Frame plfrm = new StrikeFrame();
-
-        ((StrikeFrame) plfrm).setFirstRoll(new Roll(10));
-
-        plfrm.setFrameNumber(10);
+        Frame plfrm = new StrikeFrame(10,new Roll(10,false));  
         plfrm.setCurrentScore(167);
-
         playerFramesOracle.get("Jeff").add(plfrm);
 
         // John
-        hfrm = new StrikeFrame();
-
-        ((StrikeFrame) hfrm).setFirstRoll(new Roll(10));
-
-        hfrm.setFrameNumber(5);
+        hfrm = new StrikeFrame(5,new Roll(10,false));
         hfrm.setCurrentScore(82);
-
         playerFramesOracle.get("John").add(hfrm);
 
-        plfrm = new StrikeFrame();
-
-        ((StrikeFrame) plfrm).setFirstRoll(new Roll(10));
-
-        plfrm.setFrameNumber(10);
+        plfrm = new StrikeFrame(10,new Roll(10,false));
         plfrm.setCurrentScore(151);
-
         playerFramesOracle.get("John").add(plfrm);
 
     }
@@ -142,30 +124,18 @@ public abstract class AbstractBowlingTest extends TestCase {
         playerFramesOracle.put("Carl", new ArrayList<Frame>());
 
         // Carl
-        Frame hfrm = new NormalFrame();
-
-        ((NormalFrame) hfrm).setFirstRoll(new Roll(0));
-        ((NormalFrame) hfrm).setSecondRoll(new Roll(0));
-
-        hfrm.setFrameNumber(5);
+        Frame hfrm = new NormalFrame(5,new Roll(0,false),new Roll(0,false));
         hfrm.setCurrentScore(0);
-
         playerFramesOracle.get("Carl").add(hfrm);
 
-        Frame plfrm = new NormalFrame();
-
-        ((NormalFrame) plfrm).setFirstRoll(new Roll(0));
-        ((NormalFrame) plfrm).setSecondRoll(new Roll(0));
-
-        plfrm.setFrameNumber(10);
+        Frame plfrm = new NormalFrame(10,new Roll(0,false),new Roll(0,false));
         plfrm.setCurrentScore(0);
-
         playerFramesOracle.get("Carl").add(plfrm);
 
     }
 
     /**
-     * Setup case fora all Strike
+     * Setup case for a all Strike
      */
     public void setupC3() {
 
@@ -176,24 +146,12 @@ public abstract class AbstractBowlingTest extends TestCase {
         playerFramesOracle.put("Carl", new ArrayList<Frame>());
 
         // Carl
-        Frame hfrm = new NormalFrame();
-
-        hfrm = new StrikeFrame();
-
-        ((StrikeFrame) hfrm).setFirstRoll(new Roll(10));
-
-        hfrm.setFrameNumber(5);
+        Frame hfrm = new StrikeFrame(5,new Roll(10,false));
         hfrm.setCurrentScore(150);
-
         playerFramesOracle.get("Carl").add(hfrm);
 
-        Frame plfrm = new StrikeFrame();
-
-        ((StrikeFrame) plfrm).setFirstRoll(new Roll(10));
-
-        plfrm.setFrameNumber(10);
+        Frame plfrm = new StrikeFrame(10,new Roll(10,false));
         plfrm.setCurrentScore(300);
-
         playerFramesOracle.get("Carl").add(plfrm);
 
     }

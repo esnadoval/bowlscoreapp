@@ -7,11 +7,11 @@ package co.edgarsoft.bowlscoreboard.visualprocessors;
 
 import co.edgarsoft.bowlscoreboard.entities.Board;
 import co.edgarsoft.bowlscoreboard.entities.BowlingConstants;
+import co.edgarsoft.bowlscoreboard.entities.FinalBonusSpareFrame;
 import co.edgarsoft.bowlscoreboard.entities.Frame;
+import co.edgarsoft.bowlscoreboard.entities.NormalFrame;
 import co.edgarsoft.bowlscoreboard.entities.Player;
-import co.edgarsoft.bowlscoreboard.newpackage.utils.PrintUtils;
-import java.util.ArrayList;
-import java.util.List;
+import co.edgarsoft.bowlscoreboard.entities.StrikeFrame;
 
 /**
  * Visual processor for chart view of Board
@@ -20,72 +20,117 @@ import java.util.List;
  */
 public class BoardRenderer {
 
-    public static BoardRenderer getInstance() {
-        return new BoardRenderer();
-    }
+	/**
+	 * Outputs a formated bowling board with players and scores
+	 *
+	 * @param board Well made Board objects
+	 * @return formated board string to print on file or console
+	 */
+	public String getGraphicalBoard(Board board) {
 
-    /**
-     * Outputs a formated bowling board with players and scores
-     *
-     * @param board Well made Board objects
-     * @return formated board string to print on file or console
-     */
-    public String getGraphicalBoard(Board board) {
+		// build table headers
 
-        PrintUtils pu = PrintUtils.getInstance();
+		String finalStr = "Frame\t\t";
+		for (int i = 1; i <= BowlingConstants.MAX_FRAMES; i++) {
+			finalStr += (i + (i == BowlingConstants.MAX_FRAMES ? "" : "\t\t"));
+		}
 
-        List<List<String>> tableHeaders = new ArrayList<List<String>>();
+		finalStr += "\n";
 
-        // build table headers
-        List<String> frameCell = new ArrayList<String>();
-        frameCell.add(pu.getFormatedTrailingSpace(8, "Frame"));
-        tableHeaders.add(frameCell);
-        for (int i = 1; i <= BowlingConstants.MAX_FRAMES; i++) {
-            List<String> cell = new ArrayList<String>();
-            cell.add("" + pu.getFormatedTrailingSpace(4, "" + i));
-            tableHeaders.add(cell);
-        }
+		// build players score
+		for (Player player : board.getPlayers()) {
 
-        String finalStr = pu.printTable(tableHeaders, 2);
+			finalStr += player.getName() + "\nPinfalls";
 
-        // build players score
-        for (Player player : board.getPlayers()) {
+			String scoreRow = "\nScore\t";
 
-            finalStr += player.getName() + "\n";
+			// build frames (translate its values)
+			for (Frame frm : player.getFrames()) {
 
-            List<List<String>> table = new ArrayList<List<String>>();
+				if (frm.getFrameNumber() < BowlingConstants.MAX_FRAMES) {
 
-            List<String> labels = new ArrayList<String>();
-            labels.add("Pinfalls");
-            labels.add("Score");
+					finalStr += "\t" + printFrame(frm);
+					scoreRow += "\t" + frm.getCurrentScore() + "\t";
 
-            table.add(labels);
+				} else {
 
-            //build frames (translate its values)
-            for (Frame frm : player.getFrames()) {
+					finalStr += "\t" + printFrame(frm).trim();
+					if (frm.getFrameNumber() <= BowlingConstants.MAX_FRAMES) {
+						scoreRow += "\t" + frm.getCurrentScore();
+					}
+				}
 
-                if (frm.getFrameNumber() <= BowlingConstants.MAX_FRAMES) {
-                    List<String> frameStrs = new ArrayList<String>();
-                    frameStrs.add(frm.toString());
-                    frameStrs.add("" + frm.getCurrentScore());
-                    // add to columns the current frame
-                    table.add(frameStrs);
-                } else {
+			}
 
-                    // add Roll result to last frame if there is bonus rolls (built on a frame > 10)
-                    String latestPinfalls = table.get(table.size() - 1).get(0);
+			finalStr += scoreRow + "\n";
 
-                    table.get(table.size() - 1).set(0, latestPinfalls += " " + frm.toString());
+		}
 
-                }
+		return finalStr.trim();
 
-            }
+	}
 
-            finalStr += pu.printTable(table, 2);
+	/**
+	 * Generates a string representation for a frame
+	 * @param frm the player's frame
+	 * @return visual representation of a frame
+	 */
+	private String printFrame(Frame frm) {
 
-        }
+		if (frm instanceof FinalBonusSpareFrame) {
+			return printBonusFinalFrame((FinalBonusSpareFrame) frm);
+		} else if (frm instanceof NormalFrame) {
+			return printNormalFrame((NormalFrame) frm);
 
-        return finalStr;
+		} else if (frm instanceof StrikeFrame) {
+			return printStrikeFrame();
+		}
+		return "";
 
-    }
+	}
+
+	/**
+	 * Prints a normal frame with 2 rolls
+	 * @param frm the normal frame
+	 * @return visual representation of normal frame
+	 */
+	private String printNormalFrame(NormalFrame frm) {
+
+		String firstRollStr = "" + frm.getFirstRoll().getPinsTakenDown();
+		String secondRollStr = "" + frm.getSecondRoll().getPinsTakenDown();
+
+		if (frm.getFirstRoll().isFoul()) {
+			firstRollStr = BowlingConstants.FOUL_ICON;
+		}
+
+		if (frm.getSecondRoll().getPinsTakenDown() + frm.getFirstRoll().getPinsTakenDown() == BowlingConstants.MAX_ROLL_SCORE) {
+			secondRollStr = BowlingConstants.SPARE_ICON;
+		}
+
+		return firstRollStr + "\t" + secondRollStr;
+	}
+
+	/**
+	 * Prints a strike frame with the unique roll
+	 * @param frm the strike frame
+	 * @return visual representation of strike frame
+	 */
+	private String printStrikeFrame() {
+
+		return "\t" + BowlingConstants.STRIKE_ICON;
+	}
+
+	/**
+	 * Prints the final frame with  3 rolls if is spare
+	 * @param frm the spare frame
+	 * @return visual representation of bonus spare frame
+	 */
+	private String printBonusFinalFrame(FinalBonusSpareFrame frm) {
+		String result = printNormalFrame(frm);
+
+		result.concat("\t" + (frm.getBonusRoll().getPinsTakenDown() == 10 ? BowlingConstants.STRIKE_ICON : "\t" + frm.getBonusRoll().getPinsTakenDown()));
+
+		return result;
+	}
+
 }

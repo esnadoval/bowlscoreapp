@@ -43,6 +43,11 @@ public abstract class Frame {
     public void setCurrentScore(int currentScore) {
         this.currentScore = currentScore;
     }
+
+	public Frame(int frameNumber) {
+		super();
+		this.frameNumber = frameNumber;
+	}
     
     
 

@@ -17,10 +17,7 @@ import java.util.List;
  */
 public class ScoreCalculator {
 
-    public static ScoreCalculator getInstance() {
-        return new ScoreCalculator();
-    }
-
+ 
     /**
      * Main method to populate scores. Requires well built frames first without
      * score

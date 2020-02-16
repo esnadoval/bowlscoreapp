@@ -5,14 +5,14 @@
  */
 package co.edgarsoft.bowlscoreboard.logic;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
 import co.edgarsoft.bowlscoreboard.AbstractBowlingTest;
 import co.edgarsoft.bowlscoreboard.entities.Board;
 import co.edgarsoft.bowlscoreboard.entities.Frame;
 import co.edgarsoft.bowlscoreboard.entities.Player;
-import static junit.framework.TestCase.assertTrue;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 /**
  *
@@ -35,8 +35,8 @@ public class FileToBoardParserTest extends AbstractBowlingTest {
     /**
      * Unit test for main Method parseFile. Ifthis test fails, something is
      * wrong in that class. Other methods of this class are not tested because
-     * they are auxiliar for this one
-     *
+     * they are auxiliar for this one	
+     *	
      * @throws Exception
      */
     @Test
@@ -44,7 +44,7 @@ public class FileToBoardParserTest extends AbstractBowlingTest {
 
         super.initialize();
 
-        Board rb = FileToBoardParser.getInstance().parseFile(scoreFile);
+        Board rb = new FileToBoardParser().parseFile(scoreFile);
 
         for (Player player : rb.getPlayers()) {
 
@@ -74,7 +74,7 @@ public class FileToBoardParserTest extends AbstractBowlingTest {
      */
     private boolean checkFrameIsEqual(Frame f1, Frame f2) {
 
-        return f1.getFrameNumber() == f2.getFrameNumber() && f1.toString().equals(f2.toString());
+        return f1.getFrameNumber() == f2.getFrameNumber() && f1.getFrameScore() == f2.getFrameScore();
     }
 
 }

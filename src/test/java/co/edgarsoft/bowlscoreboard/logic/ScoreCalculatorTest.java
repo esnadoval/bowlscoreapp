@@ -5,14 +5,15 @@
  */
 package co.edgarsoft.bowlscoreboard.logic;
 
-import co.edgarsoft.bowlscoreboard.AbstractBowlingTest;
-import co.edgarsoft.bowlscoreboard.entities.Frame;
-import co.edgarsoft.bowlscoreboard.entities.Player;
 import java.util.List;
-import static junit.framework.TestCase.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import co.edgarsoft.bowlscoreboard.AbstractBowlingTest;
+import co.edgarsoft.bowlscoreboard.entities.Frame;
+import co.edgarsoft.bowlscoreboard.entities.Player;
 
 /**
  * Tests Score Calculator alone
@@ -36,7 +37,7 @@ public class ScoreCalculatorTest extends AbstractBowlingTest {
         super.initialize();
 
         // Test over only one player
-        Player selected = FileToBoardParser.getInstance().parseFile(scoreFile).getPlayers().get(0);
+        Player selected = new FileToBoardParser().parseFile(scoreFile).getPlayers().get(0);
 
         // Load Board and implicitly run calculatePlayerScores
         List<Frame> caseFrames = selected.getFrames();
